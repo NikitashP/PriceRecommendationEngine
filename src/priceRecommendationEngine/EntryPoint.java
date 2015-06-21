@@ -1,5 +1,9 @@
 package priceRecommendationEngine;
 
+import DataFilterStratergies.LeastMostFrequentDataFilter;
+import pricingStratergies.PricingFactory;
+import pricingStratergies.PricingStrategy;
+
 import java.util.List;
 import java.util.Map;
 
@@ -9,15 +13,15 @@ import java.util.Map;
 public class EntryPoint {
     public static void main(String[] args) {
 
+        RecommendationEngine engine=new RecommendationEngine(new LeastMostFrequentDataFilter());
         RecommendationEngineFeed feed=RecommendationEngineFeedBuilder.buildFeedForRecommendationEngine();
-        List<Recommendation> recommendations = RecommendationEngine.generateRecommendations(feed);
+        List<Map<String,Double>> recommendations = engine.generateRecommendations(feed);
         System.out.println("Recommended Prices");
-        for (Recommendation recommendation: recommendations)
+        for (Map<String,Double> recommendation: recommendations)
         {
-            Map<String,Double> recommendationData= recommendation.getRecommendations();
-            System.out.print(recommendationData.keySet().toString());
+            System.out.print(recommendation.keySet().toString());
             System.out.print("=>");
-            System.out.println(recommendationData.values().toString());
+            System.out.println(recommendation.values().toString());
         }
     }
 }

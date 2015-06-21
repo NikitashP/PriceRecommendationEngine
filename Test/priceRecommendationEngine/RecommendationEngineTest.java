@@ -1,5 +1,6 @@
 package priceRecommendationEngine;
 
+import DataFilterStratergies.LeastMostFrequentDataFilter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +20,7 @@ public class RecommendationEngineTest {
     Map<String,Double> expectedRecommendationForFeedTwo;
     Map<String,Double> actualRecommendationForFeedOne=new HashMap<String, Double>();
     Map<String,Double> actualRecommendationForFeedTwo=new HashMap<String, Double>();
+    RecommendationEngine engine;
 
 
 
@@ -73,9 +75,10 @@ public class RecommendationEngineTest {
     @Test
     public void testGenerateRecommendationsForFeedOne() throws Exception {
 
-        for (Recommendation recommendation: RecommendationEngine.generateRecommendations(feedOne))
+        engine=new RecommendationEngine(new LeastMostFrequentDataFilter());
+        for (Map<String,Double> recommendation: engine.generateRecommendations(feedOne))
         {
-            actualRecommendationForFeedOne.putAll(recommendation.getRecommendations());
+            actualRecommendationForFeedOne.putAll(recommendation);
         }
         Assert.assertEquals(expectedRecommendationForFeedOne, actualRecommendationForFeedOne);
         System.out.println(actualRecommendationForFeedOne.toString());
@@ -84,10 +87,10 @@ public class RecommendationEngineTest {
 
     @Test
     public void testGenerateRecommendationsForFeedTwo() throws Exception {
-
-        for (Recommendation recommendation: RecommendationEngine.generateRecommendations(feedTwo))
+        engine=new RecommendationEngine(new LeastMostFrequentDataFilter());
+        for (Map<String,Double> recommendation: engine.generateRecommendations(feedTwo))
         {
-           actualRecommendationForFeedTwo.putAll(recommendation.getRecommendations());
+           actualRecommendationForFeedTwo.putAll(recommendation);
         }
         Assert.assertEquals(expectedRecommendationForFeedTwo,actualRecommendationForFeedTwo);
         System.out.println(actualRecommendationForFeedTwo.toString());

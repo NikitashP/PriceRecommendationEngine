@@ -7,6 +7,9 @@ import java.util.*;
  */
 public class RecommendationEngineFeed {
 
+    private Map<String,ProductParameters> productData;
+    private Map<String,List<SurveyData>> surveyDataMap;
+
     public RecommendationEngineFeed(Map<String, ProductParameters> productData, Map<String, List<SurveyData>> surveyDataMap) {
         this.productData = productData;
         this.surveyDataMap = surveyDataMap;
@@ -20,6 +23,13 @@ public class RecommendationEngineFeed {
         return surveyDataMap;
     }
 
-    private Map<String,ProductParameters> productData;
-    private Map<String,List<SurveyData>> surveyDataMap;
+    public List<Double> getCompetitorPrices(String productName) {
+        List<Double> competitorPrices=new ArrayList<Double>();
+        for (SurveyData data: surveyDataMap.get(productName))
+        {
+            competitorPrices.add(data.getCompetitorPrice());
+        }
+        return competitorPrices;
+    }
+
 }
